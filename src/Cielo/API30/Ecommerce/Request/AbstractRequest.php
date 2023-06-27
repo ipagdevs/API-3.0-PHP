@@ -16,12 +16,12 @@ abstract class AbstractRequest
     private $merchant;
     private $logger;
 
-	/**
-	 * AbstractSaleRequest constructor.
-	 *
-	 * @param Merchant $merchant
-	 * @param LoggerInterface|null $logger
-	 */
+    /**
+     * AbstractSaleRequest constructor.
+     *
+     * @param Merchant $merchant
+     * @param LoggerInterface|null $logger
+     */
     public function __construct(Merchant $merchant, LoggerInterface $logger = null)
     {
         $this->merchant = $merchant;
@@ -83,7 +83,9 @@ abstract class AbstractRequest
         curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
 
         if ($this->logger !== null) {
-            $this->logger->debug('Requisição', [
+            $this->logger->debug(
+                'Requisição',
+                [
                     sprintf('%s %s', $method, $url),
                     $headers,
                     json_decode(preg_replace('/("cardnumber"):"([^"]{6})[^"]+([^"]{4})"/i', '$1:"$2******$3"', json_encode($content)))
@@ -134,6 +136,18 @@ abstract class AbstractRequest
             case 400:
                 $exception = null;
                 $response  = json_decode($responseBody);
+
+                if (is_string($response)) {
+                    $response = json_decode($response);
+                }
+
+                if (json_last_error() !== JSON_ERROR_NONE || !is_array($response)) {
+                    $cieloError = new CieloError($responseBody, $statusCode);
+                    $exception = new CieloRequestException('Bad Request', 400);
+                    $exception->setCieloError($cieloError);
+
+                    throw $exception;
+                }
 
                 foreach ($response as $error) {
                     $cieloError = new CieloError($error->Message, $error->Code);
