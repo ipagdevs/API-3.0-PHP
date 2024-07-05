@@ -3,43 +3,52 @@
 namespace Cielo\API30\Ecommerce;
 
 /**
- * Class Payment
+ * Class SubEstablishment
  *
  * @package Cielo\API30\Ecommerce
  */
-
-
 class SubEstablishment implements \JsonSerializable
 {
+    const DEFAULT_COUTRY_CODE = "076";
+
     private $establishmentCode;
     private $identity;
     private $mcc;
     private $address;
     private $city;
     private $state;
-    private $countryCode;
     private $postalCode;
+    private $countryCode;
     private $phoneNumber;
-
 
     public function __construct()
     {
-        $this->countryCode = "076";
+        $this->countryCode = self::DEFAULT_COUTRY_CODE;
+        $this->establishmentCode = null;
+        $this->identity = null;
+        $this->mcc = null;
+        $this->address = null;
+        $this->city = null;
+        $this->state = null;
+        $this->countryCode = null;
+        $this->postalCode = null;
+        $this->phoneNumber = null;
     }
+
     /**
      * @param \stdClass $data
      */
     public function populate(\stdClass $data)
     {
-        $this->establishmentCode    = $data->establishmentCode ?? $data->establishmentCode;
-        $this->identity             = $data->identity          ?? $data->identity;
-        $this->mcc                  = $data->mcc               ?? $data->mcc;
-        $this->address              = $data->address           ?? $data->address;
-        $this->city                 = $data->city              ?? $data->city;
-        $this->state                = $data->state             ?? $data->state;
-        $this->countryCode          = $data->countryCode       ?? $data->countryCode;
-        $this->postalCode           = $data->postalCode        ?? $data->postalCode;
-        $this->phoneNumber          = $data->phoneNumber       ?? $data->phoneNumber;
+        $this->establishmentCode  = $data->EstablishmentCode ?? null;
+        $this->identity = $data->Identity ?? null;
+        $this->mcc = $data->Mcc ?? null;
+        $this->address = $data->Address ?? null;
+        $this->city = $data->City ?? null;
+        $this->state = $data->State ?? null;
+        $this->countryCode = $data->CountryCode ?? null;
+        $this->postalCode = $data->PostalCode ?? null;
+        $this->phoneNumber = $data->PhoneNumber ?? null;
     }
 
     public function jsonSerialize()

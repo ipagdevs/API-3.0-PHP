@@ -110,6 +110,8 @@ class Payment implements \JsonSerializable
 
     private $instructions;
 
+    private $paymentFacilitator;
+
     /**
      * Payment constructor.
      *
@@ -166,6 +168,10 @@ class Payment implements \JsonSerializable
         if (isset($data->ExternalAuthentication)) {
             $this->externalAuthentication = new ExternalAuthentication();
             $this->externalAuthentication->populate($data->ExternalAuthentication);
+        }
+
+        if (isset($data->PaymentFacilitator)) {
+            $this->paymentFacilitator()->populate($data->paymentFacilitator);
         }
 
         $this->expirationDate = isset($data->ExpirationDate) ? $data->ExpirationDate : null;
@@ -1151,6 +1157,35 @@ class Payment implements \JsonSerializable
     public function setInstructions($instructions)
     {
         $this->instructions = $instructions;
+
+        return $this;
+    }
+
+    public function paymentFacilitator()
+    {
+        if (is_null($this->paymentFacilitator)) {
+            $this->setPaymentFacilitator(new PaymentFacilitator());
+        }
+
+        return $this->getPaymentFacilitator();
+    }
+
+    /**
+     * Get the value of paymentFacilitator
+     */
+    public function getPaymentFacilitator()
+    {
+        return $this->paymentFacilitator;
+    }
+
+    /**
+     * Set the value of paymentFacilitator
+     *
+     * @return  self
+     */
+    public function setPaymentFacilitator($paymentFacilitator)
+    {
+        $this->paymentFacilitator = $paymentFacilitator;
 
         return $this;
     }

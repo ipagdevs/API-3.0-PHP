@@ -3,36 +3,17 @@
 namespace Cielo\API30\Ecommerce;
 
 /**
- * Class Payment
+ * Class PaymentFacilitator
  *
  * @package Cielo\API30\Ecommerce
  */
-
-
 class PaymentFacilitator implements \JsonSerializable
 {
-
-    private $paymentFacilitator;
-
     private $subEstablishment;
-    
 
-    public function __construct($paymentFacilitator)
+    public function __construct($subEstablishment = null)
     {
-        $this->paymentFacilitator = $paymentFacilitator;
-    }
-    
-    /**
-     * @param $json
-     *
-     * @return PaymentFacilitator
-     */
-    public static function fromJson($json)
-    {
-        $paymentFacilitator = new PaymentFacilitator(json_decode($json));
-        $paymentFacilitator->populate(json_decode($json));
-
-        return $paymentFacilitator;
+        $this->subEstablishment = $subEstablishment;
     }
 
     /**
@@ -40,7 +21,6 @@ class PaymentFacilitator implements \JsonSerializable
      */
     public function populate(\stdClass $data)
     {
-        $this->paymentFacilitator = $data->paymentFacilitator ?? $data->paymentFacilitator;
         $this->subEstablishment =  new SubEstablishment();
         $this->subEstablishment->populate($data);
     }
@@ -53,29 +33,18 @@ class PaymentFacilitator implements \JsonSerializable
         return get_object_vars($this);
     }
 
-    /**
-     * Get the value of paymentFacilitator
-     */ 
-    public function getPaymentFacilitator()
+    public function subEstablishment()
     {
-        return $this->paymentFacilitator;
-    }
-
-    /**
-     * Set the value of paymentFacilitator
-     *
-     * @return  self
-     */ 
-    public function setPaymentFacilitator($paymentFacilitator)
-    {
-        $this->paymentFacilitator = $paymentFacilitator;
-
-        return $this;
+        if (is_null($this->subEstablishment)) {
+            $this->setSubEstablishment(new SubEstablishment());
+        }
+        
+        return $this->getSubEstablishment();
     }
 
     /**
      * Get the value of subEstablishment
-     */ 
+     */
     public function getSubEstablishment()
     {
         return $this->subEstablishment;
@@ -85,8 +54,8 @@ class PaymentFacilitator implements \JsonSerializable
      * Set the value of subEstablishment
      *
      * @return  self
-     */ 
-    public function setSubEstablishment($subEstablishment)
+     */
+    public function setSubEstablishment(SubEstablishment $subEstablishment)
     {
         $this->subEstablishment = $subEstablishment;
 
