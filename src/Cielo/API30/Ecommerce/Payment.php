@@ -122,6 +122,7 @@ class Payment implements \JsonSerializable
     {
         $this->setAmount($amount);
         $this->setInstallments($installments);
+        $this->setPaymentFacilitator(null);
     }
 
     /**
@@ -171,7 +172,7 @@ class Payment implements \JsonSerializable
         }
 
         if (isset($data->PaymentFacilitator)) {
-            $this->paymentFacilitator()->populate($data->paymentFacilitator);
+            $this->paymentFacilitator()->populate($data->PaymentFacilitator);
         }
 
         $this->expirationDate = isset($data->ExpirationDate) ? $data->ExpirationDate : null;
