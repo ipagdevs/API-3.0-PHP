@@ -72,7 +72,7 @@ class SubEstablishment implements \JsonSerializable
      */
     public function setEstablishmentCode($establishmentCode)
     {
-        $this->establishmentCode = $establishmentCode;
+        $this->establishmentCode = mb_substr(trim($establishmentCode), 0, 15);
 
         return $this;
     }
@@ -132,7 +132,7 @@ class SubEstablishment implements \JsonSerializable
      */
     public function setAddress($address)
     {
-        $this->address = $address;
+        $this->address = mb_substr(trim($address), 0, 22);
 
         return $this;
     }
@@ -152,7 +152,7 @@ class SubEstablishment implements \JsonSerializable
      */
     public function setCity($city)
     {
-        $this->city = $city;
+        $this->city = mb_substr(trim($city), 0, 13);
 
         return $this;
     }
@@ -182,7 +182,7 @@ class SubEstablishment implements \JsonSerializable
      */
     public function getCountryCode()
     {
-        return $this->countryCode;
+        return $this->countryCode ?? self::DEFAULT_COUTRY_CODE;
     }
 
     /**
@@ -212,7 +212,7 @@ class SubEstablishment implements \JsonSerializable
      */
     public function setPostalCode($postalCode)
     {
-        $this->postalCode = $postalCode;
+        $this->postalCode = mb_substr(trim($postalCode), 0, 9);
 
         return $this;
     }

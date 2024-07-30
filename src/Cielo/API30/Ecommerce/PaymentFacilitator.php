@@ -11,9 +11,12 @@ class PaymentFacilitator implements \JsonSerializable
 {
     private $subEstablishment;
 
+    private $establishmentCode;
+
     public function __construct($subEstablishment = null)
     {
         $this->subEstablishment = $subEstablishment;
+        $this->establishmentCode = null;
     }
 
     /**
@@ -21,7 +24,8 @@ class PaymentFacilitator implements \JsonSerializable
      */
     public function populate(\stdClass $data)
     {
-        $this->subEstablishment =  new SubEstablishment();
+        $this->subEstablishment = new SubEstablishment();
+        $this->establishmentCode = $data->EstablishmentCode ?? null;
         $this->subEstablishment->populate($data);
     }
 
@@ -38,7 +42,7 @@ class PaymentFacilitator implements \JsonSerializable
         if (is_null($this->subEstablishment)) {
             $this->setSubEstablishment(new SubEstablishment());
         }
-        
+
         return $this->getSubEstablishment();
     }
 
@@ -58,6 +62,26 @@ class PaymentFacilitator implements \JsonSerializable
     public function setSubEstablishment(SubEstablishment $subEstablishment)
     {
         $this->subEstablishment = $subEstablishment;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of establishmentCode
+     */
+    public function getEstablishmentCode()
+    {
+        return $this->establishmentCode;
+    }
+
+    /**
+     * Set the value of establishmentCode
+     *
+     * @return  self
+     */
+    public function setEstablishmentCode($establishmentCode)
+    {
+        $this->establishmentCode = $establishmentCode;
 
         return $this;
     }
