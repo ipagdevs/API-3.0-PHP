@@ -20,6 +20,7 @@ class SubEstablishment implements \JsonSerializable
     private $postalCode;
     private $countryCode;
     private $phoneNumber;
+    private $companyName;
 
     public function __construct()
     {
@@ -33,6 +34,7 @@ class SubEstablishment implements \JsonSerializable
         $this->countryCode = null;
         $this->postalCode = null;
         $this->phoneNumber = null;
+        $this->companyName = null;
     }
 
     /**
@@ -49,13 +51,13 @@ class SubEstablishment implements \JsonSerializable
         $this->countryCode = $data->CountryCode ?? null;
         $this->postalCode = $data->PostalCode ?? null;
         $this->phoneNumber = $data->PhoneNumber ?? null;
+        $this->companyName = $data->CompanyName ?? null;
     }
 
     public function jsonSerialize()
     {
         return get_object_vars($this);
     }
-
 
     /**
      * Get the value of establishmentCode
@@ -233,6 +235,26 @@ class SubEstablishment implements \JsonSerializable
     public function setPhoneNumber($phoneNumber)
     {
         $this->phoneNumber = $phoneNumber;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of companyName
+     */
+    public function getCompanyName()
+    {
+        return $this->companyName;
+    }
+
+    /**
+     * Set the value of companyName
+     * 
+     * @return self
+     */
+    public function setCompanyName($companyName)
+    {
+        $this->companyName = $companyName;
 
         return $this;
     }
